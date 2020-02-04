@@ -23,7 +23,7 @@ document.body.appendChild(startButton);
 startButton.addEventListener("click", begin)
 
 function begin(){
-    clock();
+    clockF();
     question1();
 }
 
@@ -31,29 +31,29 @@ function begin(){
 var timerEl = document.getElementById("countdown");
 
 
-var clock;
+var clock = 50;
+var clockStop;
 
 
-
-function clock() {
-    var clock = 50;
-    var intervalId = setInterval(function() {
+function clockF() {
+    
+    intervalId = setInterval(function() {
         timerEl.textContent = "Time " + clock;
         clock--;
 
-        // if () {
-        //     clock - 10;
-
-        // }
-
-
-
-        if (clock === 0){
+        if (clock === 0 || clockStop === 1){
             timerEl.textContent = "";
             clearInterval(intervalId);
             // EndCycle();
         }
     }, 1000)
+    
+}
+
+function modifyClock(){
+    clock = clock- 10;
+    return clock;
+   
 }
 
 
@@ -70,8 +70,8 @@ function incorrect(){
     incorrectArray.push("inCorrect");
     var correctOrIncorrect = document.getElementById("correctOrIncorrect"); 
     correctOrIncorrect.textContent = "Incorrect"
-    var clock = clock - 10;
-    return clock;
+    modifyClock();
+    
 }
 
 
