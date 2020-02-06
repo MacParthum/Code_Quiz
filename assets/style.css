@@ -1,6 +1,8 @@
 body {
     background-color: #EBEBEB;
     margin-right: 0;
+    overflow-x: hidden;
+    
 }
 
 main {
@@ -34,12 +36,25 @@ h2 {
 }
 
 p {
-    padding-left: 30px;
-    padding-top: 10px;
+    
     color: #58A69E;
 
 }
 
+
+
+
+#high-scores {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    
+    color: #58A69E;
+    padding-right: 30px;
+    padding-top: 10px;
+    z-index: 2;
+
+}
 
 .line-below {
     border-bottom-style: solid;
@@ -51,6 +66,7 @@ p {
     border-top-style: solid;
     border-top-color: #EBEBEB;
     border-top-width: 2px;
+    min-height: 100px;
 }
 
 #countdown {
@@ -65,4 +81,16 @@ p {
 
 col {
     position: relative;
+}
+
+@media screen and (min-width: 641px){
+    #high-scores {
+        left: 42.5%;
+    }
+}
+
+@media screen and (min-width: 769px){
+    #high-scores {
+        left: 45%;
+    }
 }
