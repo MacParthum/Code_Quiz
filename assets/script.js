@@ -6,7 +6,7 @@ body.appendChild(h2El);
 h2El.setAttribute("style", "padding-left: 30px")
 
 var pEl = document.createElement("p");
-pEl.textContent = "Please press start to begin a timed quiz, wherein the fastest finishing time is the objective.  Be careful, If you answer a question incorrectly, 10 seconds will be taken off the clock."
+pEl.textContent = "Please press start to begin a timed quiz, wherein the fastest finishing time is the objective.  Be careful, If you answer a question incorrectly, 5 seconds will be taken off the clock."
 body.appendChild(pEl);
 pEl.setAttribute("style", "margin-right:30px")
 pEl.setAttribute("style", "margin-left: 30px")
@@ -22,7 +22,6 @@ startButton.addEventListener("click", begin)
 var mainEl = document.querySelector("main")
 mainEl.style.display = "none";
 mainEl.style.position = "relative";
-
 
 
 var timerEl = document.createElement("p");
@@ -47,7 +46,7 @@ highScoresA.style.right = "30px"
 
 
 var clock = 50;
-// var clockStop;
+var clockStop;
 
 function clockF() {
     // clock.value = "";
@@ -56,10 +55,11 @@ function clockF() {
         timerEl.textContent = "Time " + clock;
         clock--;
 
-        if (clock === 0 || clock < 0){
+        if (clock === 0 || clock < 0 ){
             timerEl.textContent = "";
             clearInterval(intervalId);
-            // localStorage.setItem(prompt("Your quiz has finished. Please enter your Initials below."), clock)
+            mainEl.innerHTML = ""
+            addInitials();
         }
     }, 1000)
     
@@ -117,6 +117,9 @@ var questionNumber=0;
 // console.log(questions[0])
 // console.log(questions.length)
 
+var response;
+
+
 function display(){
     if (questionNumber<questions.length){
     
@@ -130,7 +133,7 @@ function display(){
     var olEl = document.createElement("ol");
         mainEl.appendChild(olEl);
 
-    var response = document.createElement("p")
+    response = document.createElement("p")
     body.appendChild(response);
     response.style.position = "fixed"
     response.style.bottom = "10px"
@@ -143,92 +146,132 @@ function display(){
         var button = document.createElement("button");
         liEl.appendChild(button);
         button.textContent = qu;
+        button.addEventListener("click", click)
         // console.log(qu)
-        // console.log(questions[questionNumber].answer)
-        button.addEventListener("click", function(event){
-            event.preventDefault();
-            // console.log(olEl.liEl.button.textContent)
-            console.log(button.textContent)
-            // console.log(questions[questionNumber].answer)
-
-            // console.log(toString(event.target))
-            // console.log("<button>"+ questions[questionNumber].answer + "</button>")
-            if(button.textContent === questions[questionNumber].answer){
-                response.textContent = "";
-                response.textContent = "Correct"
-                questionNumber = questionNumber + 1;
-                mainEl.innerHTML = "";
-                display();
-            }else{
-                response.textContent = "";
-                response.textContent = "Incorrect"
-                questionNumber = questionNumber + 1;
-                mainEl.innerHTML = "";
-                clock = clock -10;
-                display();
-            };
-    })
+        // console.log(questions[questionNumber].answer)     
 }
+
+
 }else {
+  // clearInterval(intervalId);
+  // clockStop = 1
   addInitials();
   // locals.push(prompt("Your quiz has finished. Please enter your Initials below.") + clock)
   // end();
 }
 }
 
+// button.addEventListener("click",)
+
+function click(event){
+  event.preventDefault();
+  // console.log(this.textContent)
+  // var target = event.target.
+  // console.log(olEl.liEl.button.textContent)
+  // console.log(button.textContent)
+  // console.log(questions[questionNumber].answer)
+
+  // console.log(toString(event.target))
+  // console.log("<button>"+ questions[questionNumber].answer + "</button>")
+  if(this.textContent === questions[questionNumber].answer){
+      response.textContent = "";
+      response.textContent = "Correct"
+      questionNumber = questionNumber + 1;
+      mainEl.innerHTML = "";
+      display();
+  }else{
+      response.textContent = "";
+      response.textContent = "Incorrect"
+      questionNumber = questionNumber + 1;
+      mainEl.innerHTML = "";
+      clock = clock -5;
+      display();
+  };
+}
+
+
+
 // var localS = [];
 
-function end(){
-  mainEl.innerHTML = "";
+// function end(){
+//   mainEl.innerHTML = "";
   
 
-  var highScoresHeading = document.createElement("h2");
-  mainEl.appendChild(highScoresHeading);
-  highScoresHeading.textContent = "High Scores";
+//   var highScoresHeading = document.createElement("h2");
+//   mainEl.appendChild(highScoresHeading);
+//   highScoresHeading.textContent = "High Scores";
 
-  var olEl = document.createElement("ol");
-  mainEl.appendChild(olEl);
+//   var olEl = document.createElement("ol");
+//   mainEl.appendChild(olEl);
 
-  for (var i = 0; i < localS.length; i++){
+//   for (var i = 0; i < localS.length; i++){
 
-    var liEl = document.createElement("li");
-    olEl.appendChild(liEl);
-    liEl.textContent = localStoragestuff
+//     var liEl = document.createElement("li");
+//     olEl.appendChild(liEl);
+//     liEl.textContent = localStoragestuff
 
-  }
+//   }
 
+// }
+
+function getLocal(event){
+  // var storedLocals = JSON.parse(localStorage.getItem("locals"));
+
+  // if (storedLocals !== null) {
+  // locals = storedLocals;
+  // }
+
+  console.log(1)
+  
+  // if (!highScore)highScore = [];
+  // var tempObj = {intials: intials, score: score}
+  // highScoresA.push(tempObj)
+  // localStorage.setItem(JSON.stringify(highScore))
+  event.preventDefault();
+  var intials = document.getElementById("intials");
+  console.log(intials)
+  var highScore = JSON.parse(localStorage.getItem("highScore"))
+  if (!highScore){highScore = []};
+  var tempObj = {intials: intials, score:clock}
+  console.log(tempObj)    
+  highScore.push(tempObj);
+      localStorage.setItem("highScore", JSON.stringify(highScore))
+      window.location.replace("./highscore.html")
+      console.log(intials)
 }
 
-function getLocal(){
-  var storedLocals = JSON.parse(localStorage.getItem("locals"));
-
-  if (storedLocals !== null) {
-  locals = storedLocals;
-  }
-
-  end();
-}
-
-function addLocal(){
-  localStorage.setItem("locals", JSON.stringify(locals));
-}
 
 
 function addInitials (){
   var initialsHeading = document.createElement("h2");
   mainEl.appendChild(initialsHeading);
-  initialsHeading.textContent = "Your quiz has finished. Please type your Initials below and press enter."
+  initialsHeading.textContent = "Your quiz has finished. Please type your Initials below and press Submit."
   var formEl = document.createElement("form")
   mainEl.appendChild(formEl);
   var inputEl = document.createElement("input")
   formEl.appendChild(inputEl);
+  var button = document.createElement("button")
+  mainEl.appendChild(button)
   inputEl.setAttribute("type", "text")
-  inputEl.addEventListener("submit", addLocal)
+  inputEl.id = "intials"
   inputEl.style.marginLeft = "30px"
-
+  button.addEventListener("click", getLocal)
+  button.textContent = "Submit"
+  
 }
 
 
+// function addLocal(){
+//   localStorage.setItem("locals", JSON.stringify(locals));
+// }
+
+
+// var highScore = localStorage.getItem("highScore");
+
+  // if (!highScore)highScore = [];
+  // var tempObj = {intials: intials, score: score}
+  // highScoresA.push(tempObj)
+  // localStorage.setItem(JSON.stringify(highScore))
 
 
 
