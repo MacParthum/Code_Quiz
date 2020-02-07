@@ -38,11 +38,11 @@ body.appendChild(highScoresA);
 highScoresA.style.position = "fixed"
 highScoresA.style.bottom = "20px"
 highScoresA.style.right = "30px"
+highScoresA.addEventListener("click", movePage)
 
-
-// highScoresA.addEventListener("click", end)
-
-
+function movePage (){
+  window.location.replace("./highscore.html")
+}
 
 
 var clock = 50;
@@ -232,7 +232,7 @@ function getLocal(event){
   console.log(intials)
   var highScore = JSON.parse(localStorage.getItem("highScore"))
   if (!highScore){highScore = []};
-  var tempObj = {intials: intials, score:clock}
+  var tempObj = {intials: intials.value, score:clock}
   console.log(tempObj)    
   highScore.push(tempObj);
       localStorage.setItem("highScore", JSON.stringify(highScore))
@@ -240,7 +240,7 @@ function getLocal(event){
       console.log(intials)
 }
 
-
+var submitButton = document.getElementById("Submit")
 
 function addInitials (){
   var initialsHeading = document.createElement("h2");
@@ -255,9 +255,15 @@ function addInitials (){
   inputEl.setAttribute("type", "text")
   inputEl.id = "intials"
   inputEl.style.marginLeft = "30px"
-  button.addEventListener("click", getLocal)
   button.textContent = "Submit"
-  
+  button.id = "Submit"
+  button.style.marginLeft = "30px"
+  button.style.marginTop = "10px"
+  inputEl = inputEl.value 
+  button.addEventListener("click", getLocal)
+ 
+  console.log(inputEl)
+  console.log(button)
 }
 
 
